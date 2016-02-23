@@ -5,6 +5,7 @@ public class Task {
   private int id;
   private int categoryId;
   private String description;
+  private String dueDate;
 
   public int getId() {
     return id;
@@ -18,9 +19,14 @@ public class Task {
     return categoryId;
   }
 
-  public Task(String description, int categoryId) {
+  public String getDueDate() {
+    return dueDate;
+  }
+
+  public Task(String description, int categoryId, String dueDate) {
     this.description = description;
     this.categoryId = categoryId;
+    this.dueDate = dueDate;
   }
 
   @Override
@@ -33,13 +39,14 @@ public class Task {
       System.out.println(newTask.getCategoryId());
       return this.getDescription().equals(newTask.getDescription()) &&
              this.getId() == newTask.getId() &&
-             this.getCategoryId() == newTask.getCategoryId();
+             this.getCategoryId() == newTask.getCategoryId() &&
+             this.getDueDate() == newTask.getDueDate();
     }
   }
 
 
   public static List<Task> all() {
-    String sql = "SELECT id, description, categoryId FROM tasks";
+    String sql = "SELECT id, description, dueDate, categoryId FROM tasks ORDER BY dueDate ASC";
     try(Connection con = DB.sql2o.open()) {
       return con.createQuery(sql).executeAndFetch(Task.class);
     }
@@ -47,10 +54,11 @@ public class Task {
 
   public void save() {
     try(Connection con = DB.sql2o.open()) {
-      String sql = "INSERT INTO tasks(description, categoryId) VALUES (:description, :categoryId)";
+      String sql = "INSERT INTO tasks(description, categoryId, dueDate) VALUES (:description, :categoryId, :dueDate)";
       this.id = (int) con.createQuery(sql, true)
         .addParameter("description", description)
         .addParameter("categoryId", categoryId)
+        .addParameter("dueDate", dueDate)
         .executeUpdate()
         .getKey();
     }

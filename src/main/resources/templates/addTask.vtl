@@ -6,7 +6,7 @@ adTask.vtl
 
 
 #foreach($task in $tasks)
-<li><h4>$task.getDescription()</h4></li>
+<li><h4>$task.getDescription() #if ($task.getDueDate().length() >= 1)  Due Date: $task.getDueDate()#end</h4></li>
 <form action="/delete/task/$task.getId()" method="post">
   <input id="categoryId" name="categoryId" type=hidden value="$category.getId()">
   <button type="submit" id="$task.getId()" name="$task.getId()" class="btn btn-danger">
@@ -20,7 +20,10 @@ adTask.vtl
   <input id="categoryId" name="categoryId" type=hidden value="$category.getId()">
   <label>Add a Task</label>
   <input type="text" name="taskName" id="taskName" required autofocus="autofocus">
+  <label for="">Add Due Date</label>
+  <input type="date" name="dueDate" id="dueDate">
   <button type="submit" name="taskButton" class="btn btn-info">Submit</button>
 </form>
 
 <a href="/">Go Back Home</a>
+<a href="/___+++++____">View all Tasks by Due Date</a>

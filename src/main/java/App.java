@@ -65,7 +65,8 @@ public class App {
       Category category = Category.find(Integer.parseInt(request.queryParams("categoryId")));
       int id = Integer.parseInt(request.queryParams("categoryId"));
       String taskName = request.queryParams("taskName");
-      Task newTask = new Task(taskName, id);
+      String dueDate = request.queryParams("dueDate");
+      Task newTask = new Task(taskName, id, dueDate);
       newTask.save();
       List<Task> tasks = category.getTasks();
       model.put("category", category);
