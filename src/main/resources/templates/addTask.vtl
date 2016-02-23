@@ -8,7 +8,8 @@ adTask.vtl
 #foreach($task in $tasks)
 <li><h4>$task.getDescription()</h4></li>
 <form action="/delete/task/$task.getId()" method="post">
-<button type="submit" id="$task.getId()" name="deleteTask" class="btn btn-danger">
+  <input id="categoryId" name="categoryId" type=hidden value="$category.getId()">
+  <button type="submit" id="$task.getId()" name="$task.getId()" class="btn btn-danger">
   Delete Task</button></h4>
 </form>
 #end
@@ -18,7 +19,7 @@ adTask.vtl
 <form action="/:id" method="post">
   <input id="categoryId" name="categoryId" type=hidden value="$category.getId()">
   <label>Add a Task</label>
-  <input type="text" name="taskName" id="taskName" required>
+  <input type="text" name="taskName" id="taskName" required autofocus="autofocus">
   <button type="submit" name="taskButton" class="btn btn-info">Submit</button>
 </form>
 

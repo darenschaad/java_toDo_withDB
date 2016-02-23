@@ -18,6 +18,9 @@ public class AppTest extends FluentTest {
       return webDriver;
   }
 
+  @Rule
+  public DatabaseRule database = new DatabaseRule();
+
   @ClassRule
   public static ServerRule server = new ServerRule();
 
@@ -26,4 +29,52 @@ public class AppTest extends FluentTest {
       goTo("http://localhost:4567/");
       assertThat(pageSource()).contains("To-Do List");
   }
+
+
+  @Test
+  public void categoryIsDisplayedTest() {
+    Category myCategory = new Category("Shopping");
+    myCategory.save();
+    goTo("http://localhost:4567");
+    assertThat(pageSource()).contains("Shopping");
+  }
+
+  @Test
+  public void allTasksDisplayDescriptionOnCategoryPage() {
+    Category myCategory = new Category("Household chores");
+    myCategory.save();
+    Task firstTask = new Task("Mow the lawn", myCategory.getId());
+    firstTask.save();
+    Task secondTask = new Task("Do the dishes", myCategory.getId());
+    secondTask.save();
+    String categoryPath = String.format("http://localhost:4567/%d", myCategory.getId());
+    goTo(categoryPath);
+    assertThat(pageSource()).contains("Mow the lawn");
+    assertThat(pageSource()).contains("Do the dishes");
+  }
+
+  @Test
+  public void categoryIsDeleted() {
+    Category myCategory = new Category("Household chores");
+    myCategory.save();
+    int id = myCategory.getId();
+    myCategory.deleteCategory(id);
+    goTo("http://localhost:4567");
+    assertThat(!(pageSource()).contains("Household chores"));
+  }
+
+  @Test
+  public void taskIsDeleted() {
+    Category myCategory = new Category("Household chores");
+    myCategory.save();
+    int categoryId = myCategory.getId();
+    Task myTask = new Task("sweep", categoryId);
+    myTask.save();
+    int id = myTask.getId();
+    myTask.delete(id);
+    String categoryPath = String.format("http://localhost:4567/%d", myCategory.getId());
+    goTo(categoryPath);
+    assertThat(!(pageSource()).contains("sweep"));
+  }
+
 }

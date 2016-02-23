@@ -29,10 +29,10 @@ public class App {
 
     post("/delete/task/:id", (request, response) -> {
       HashMap<String, Object> model = new HashMap<String, Object>();
-      Category category = Category.find(Integer.parseInt(request.params("#categoryId")));
       int id = Integer.parseInt(request.params(":id"));
-      List<Task> tasks = category.getTasks();
       Task.delete(id);
+      Category category = Category.find(Integer.parseInt(request.queryParams("categoryId")));
+      List<Task> tasks = category.getTasks();
       model.put("category", category);
       model.put("tasks", tasks);
       model.put("template", "templates/addTask.vtl");
