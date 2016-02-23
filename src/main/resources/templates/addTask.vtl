@@ -1,10 +1,16 @@
+adTask.vtl
+
 <h2>$category.getName()</h2>
 
 <ul>
 
 
 #foreach($task in $tasks)
-<li><h4>$task.getDescription()</h4> <button type="submit" name="B" class="btn btn-info">Delete Task</button></li>
+<li><h4>$task.getDescription()</h4></li>
+<form action="/delete/task/$task.getId()" method="post">
+<button type="submit" id="$task.getId()" name="deleteTask" class="btn btn-danger">
+  Delete Task</button></h4>
+</form>
 #end
 </ul>
 

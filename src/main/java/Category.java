@@ -44,14 +44,13 @@ public class Category {
     }
   }
 
-  public void save() {
-    try(Connection con = DB.sql2o.open()) {
-      String sql = "INSERT INTO Categories(name) VALUES (:name)";
-      this.id = (int) con.createQuery(sql, true)
-        .addParameter("name", this.name)
-        .executeUpdate()
-        .getKey();
-    }
+  public static void deleteCategory(int id) {
+      String sql = "DELETE FROM Categories WHERE id=:id";
+      try(Connection con = DB.sql2o.open()) {
+        con.createQuery(sql)
+        .addParameter("id", id)
+        .executeUpdate();
+      }
   }
 
   public static Category find(int id) {

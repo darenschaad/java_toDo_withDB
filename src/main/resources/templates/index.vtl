@@ -1,7 +1,13 @@
+index.vtl
 <h1>To-Do List</h1>
 <h3>Categories:</h3>
 #foreach($category in $categories)
-<h4><a href="/$category.getId()">$category.getName()</a><button type="submit" name="deleteCategory" class="btn btn-danger">Delete Category</button></h4>
+<h4><a href="/$category.getId()">$category.getName()</a>
+
+  <form action="/delete/category/$category.getId()" method="post">
+  <button type="submit" id="$category.getId()" name="deleteCategory" class="btn btn-danger">
+    Delete Category</button></h4>
+  </form>
 #end
 
 
