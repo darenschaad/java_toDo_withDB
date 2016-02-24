@@ -1,0 +1,9 @@
+second.vtl
+
+<ul>
+
+
+#foreach($task in $tasks)
+<li><h4>$task.getDescription() #if ($task.getDueDate().length() >= 1)  Due Date: $task.getDueDate()#end</h4></li>
+#end
+</ul>

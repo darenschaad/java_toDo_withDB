@@ -46,7 +46,7 @@ public class Task {
 
 
   public static List<Task> all() {
-    String sql = "SELECT id, description, dueDate, categoryId FROM tasks ORDER BY dueDate ASC";
+    String sql = "SELECT id, description, categoryId, dueDate FROM tasks ORDER BY dueDate";
     try(Connection con = DB.sql2o.open()) {
       return con.createQuery(sql).executeAndFetch(Task.class);
     }
@@ -90,6 +90,14 @@ public class Task {
       con.createQuery(sql)
         .addParameter("id", id)
         .executeUpdate();
+    }
+  }
+  public List<Task> getAllTasks() {
+    try(Connection con = DB.sql2o.open()) {
+      String sql = "SELECT * FROM tasks";
+      return con.createQuery(sql)
+        .addParameter("id", id)
+        .executeAndFetch(Task.class);
     }
   }
 }
