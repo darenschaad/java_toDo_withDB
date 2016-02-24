@@ -1,9 +1,17 @@
 second.vtl
 
+<h2>Task List by Due Date</h2>
 <ul>
 
 
 #foreach($task in $tasks)
 <li><h4>$task.getDescription() #if ($task.getDueDate().length() >= 1)  Due Date: $task.getDueDate()#end</h4></li>
+<form action="/tasks" method="post">
+  <input id="taskId" name="taskId" type=hidden value="$task.getId()">
+  <button type="submit" id="$task.getId()" name="$task.getId()" class="btn btn-danger">
+  Delete Task</button></h4>
+</form>
 #end
 </ul>
+
+<a href="/">Go Back Home</a>

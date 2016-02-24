@@ -26,6 +26,16 @@ public class App {
       return new ModelAndView(model, layout);
     }, new VelocityTemplateEngine());
 
+    post("/tasks", (request, response) -> {
+      HashMap<String, Object> model = new HashMap<String, Object>();
+      int id = Integer.parseInt(request.queryParams("taskId"));
+      Task.delete(id);
+      model.put("tasks", Task.all());
+      model.put("template", "templates/second.vtl");
+      return new ModelAndView(model, layout);
+    }, new VelocityTemplateEngine());
+
+
     post("/delete/category/:id", (request, response) -> {
       HashMap<String, Object> model = new HashMap<String, Object>();
       int id = Integer.parseInt(request.params(":id"));
